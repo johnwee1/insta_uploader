@@ -1,5 +1,5 @@
 venv/
-env.json
+*.json
 .idea/
 image_temp.jpg
 modified_image.jpg

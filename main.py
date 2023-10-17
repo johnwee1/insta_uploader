@@ -1,9 +1,9 @@
-# the main script needs to instantiate the Selenium webdriver
 import json
 import instagrapi
 from collections import namedtuple
 import image
-import google_sheets as gs
+import ai
+import google_sheets
 
 
 with open('env.json', 'r') as f:
@@ -11,13 +11,23 @@ with open('env.json', 'r') as f:
 Env = namedtuple('Env', _env.keys())
 env = Env(**_env)
 
-confession = "oh yeah yeah. test etst tewst eteitehwtiewhou thweoit hwoi t ge4 gee"
-sender = "-pseudonym"
-img_path = image.build_image(image.retrieve_image(), confession, sender)
+try:
+    cl = instagrapi.Client()
+    cl.login(env.USERNAME, env.PASSWORD)
+except Exception as e:
+    print(f"Exception {e}. Check auth. Terminating program.")
+    quit()
 
 
+def main_loop():
+    names, messages = google_sheets.get_new_messages()
+    for name, message in zip(names,messages):
+        if ai.is_content_offensive(message):
+            continue
+        content = image.build_image(message, name)
+        print(f"message: {message}")
+        print(f"sender: {name}")
+        cl.photo_upload(content,message)
 
-# cl = instagrapi.Client()
-# cl.login(env.USERNAME, env.PASSWORD)
-#
-# cl.photo_upload(image_path,"test upload!")
+
+main_loop()

@@ -1,6 +1,6 @@
-You are a function that acts as a content moderator to output either 0 or 1.
+Imagine you are a content moderator to screen out potentially offensive remarks.
 The input is a text remark.
 If that contains excessive use of vulgarities or sexually obscene imagery, output 0.
 Otherwise, output 1. The integer output needs to be at the very first character of your output.
 
-Remark: Tom smells like ass
+Remark:

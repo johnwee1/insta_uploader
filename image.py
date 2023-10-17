@@ -3,6 +3,9 @@ import requests
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
+FONT_SIZE = 50
+OPACITY = 0.5
+RECT_RAD = 50
 
 def retrieve_image() -> os.path:
     """
@@ -23,26 +26,28 @@ def retrieve_image() -> os.path:
                 f.write(chunk)
     else:
         # handle api failure by manually creating image
-        print('Failed to get image:', response.status_code)
+        print(__name__)
+        print(': Failed to get image:', response.status_code)
         Image.new('RGB', (img_width, img_height)).save(img_path)
 
     assert img_path in os.listdir(os.getcwd())
     return img_path
 
 
-def build_image(image_path: os.path, text_content: str, sender_name: str) -> os.path:
+def build_image(text_content: str, sender_name: str) -> os.path:
     """
     Put text onto the image, and then make a new image in the directory.
     Delete image_path after done.
-    :param image_path: path of image
     :param text_content: returned from get_message()
     :param sender_name: returned from get_message()
     :return: path of the new image with the text.
     """
+    image_path = retrieve_image() # Get image from web
+
     text_content = textwrap.fill(text_content, width=38)
     text_content = f"{text_content}\n-{sender_name}"
-    img = Image.open(image_path)
-    font = ImageFont.truetype(os.path.join(os.getcwd(), "roboto.ttf"), size=45)
+    img = Image.open(image_path).convert("RGBA")
+    font = ImageFont.truetype(os.path.join(os.getcwd(), "roboto.ttf"), size=FONT_SIZE)
     draw = ImageDraw.Draw(img)
     text_anchor = (img.size[0] / 2, img.size[1] / 2)
 
@@ -65,30 +70,36 @@ def build_image(image_path: os.path, text_content: str, sender_name: str) -> os.
 
         return (anchor[0], anchor[1]-y_offset)
 
-    box = draw.multiline_textbbox(
+    text_anchor = center_box(text_anchor)
+
+
+    x1,y1,x2,y2 = draw.multiline_textbbox(
         (text_anchor[0], text_anchor[1]),
         text_content,
         font,
         "ms"
     )
 
-    text_anchor = center_box(text_anchor)
+    x1-=RECT_RAD
+    y1-=RECT_RAD
+    x2+=RECT_RAD
+    y2+=RECT_RAD
 
+    black_color = (0,0,0,int(OPACITY*256))
+
+    blank = Image.new('RGBA', img.size, (0,0,0,0))
+    draw_blank = ImageDraw.Draw(blank)
+    draw_blank.rounded_rectangle((x1,y1,x2,y2), fill=black_color, radius=RECT_RAD/4)
+
+    img = Image.alpha_composite(img, blank).convert("RGB")
+    # Save the modified image
+    draw = ImageDraw.Draw(img)
     draw.multiline_text(
         (text_anchor[0], text_anchor[1]),
         text_content,
         font=font,
         anchor="ms",
     )
-
-    box = draw.multiline_textbbox(
-        (text_anchor[0], text_anchor[1]),
-        text_content,
-        font,
-        "ms"
-    )
-
-    # Save the modified image
     modified_path = 'modified_image.jpg'
     img.save(modified_path)
 
