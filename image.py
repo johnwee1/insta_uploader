@@ -2,10 +2,41 @@ import os
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
+import json
+from types import SimpleNamespace
 
 FONT_SIZE = 50
 OPACITY = 0.5
 RECT_RAD = 50
+img_path = "image_temp.jpg"
+
+
+def retrieve_context_img(query: str) -> os.path:
+    with open('imgapi.json', 'r') as f:
+        api = json.load(f)
+    headers = {
+        "Authorization": api["IMG_API_KEY"]
+    }
+    size = "small"
+    locale = "en-US"
+    per_page = "1"
+    url = f"https://api.pexels.com/v1/search?query={query}&size={size}&locale={locale}&per_page={per_page}"
+    response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        print(__name__ + "Request failed with status code:", response.status_code)
+        # Fallback to random image
+        return retrieve_image()
+    data = json.loads(response.text, object_hook=lambda x: SimpleNamespace(**x))
+    img = requests.get(data.photos[0].src.landscape, stream=True)
+    if img.status_code == 200:
+        with open(img_path, 'wb') as f:
+            for chunk in img.iter_content(chunk_size=8192):
+                f.write(chunk)
+    else:
+        return retrieve_image()
+    assert img_path in os.listdir(os.getcwd())
+    return img_path
 
 def retrieve_image() -> os.path:
     """
@@ -15,7 +46,6 @@ def retrieve_image() -> os.path:
     img_width = 1000
     img_height = 1000
     img_url = f"https://random.imagecdn.app/{img_width}/{img_height}"  # some api i found online
-    img_path = 'image_temp.jpg'
 
     response = requests.get(img_url, stream=True)
 
@@ -34,7 +64,7 @@ def retrieve_image() -> os.path:
     return img_path
 
 
-def build_image(text_content: str, sender_name: str) -> os.path:
+def build_image(text_content: str, sender_name: str, context: str) -> os.path:
     """
     Put text onto the image, and then make a new image in the directory.
     Delete image_path after done.
@@ -42,10 +72,10 @@ def build_image(text_content: str, sender_name: str) -> os.path:
     :param sender_name: returned from get_message()
     :return: path of the new image with the text.
     """
-    image_path = retrieve_image() # Get image from web
+    image_path = retrieve_context_img(context) # can switch with retrieve_image() if you want
 
     text_content = textwrap.fill(text_content, width=38)
-    text_content = f"{text_content}\n-{sender_name}"
+    text_content = f"{text_content}\n    - {sender_name}"
     img = Image.open(image_path).convert("RGBA")
     font = ImageFont.truetype(os.path.join(os.getcwd(), "roboto.ttf"), size=FONT_SIZE)
     draw = ImageDraw.Draw(img)

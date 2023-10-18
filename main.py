@@ -24,7 +24,8 @@ def main_loop():
     for name, message in zip(names,messages):
         if ai.is_content_offensive(message):
             continue
-        content = image.build_image(message, name)
+        context = ai.generate_image_context(message)
+        content = image.build_image(message, name, context)
         print(f"message: {message}")
         print(f"sender: {name}")
         cl.photo_upload(content,message)
