@@ -1,4 +1,5 @@
 import os
+from os import environ as env
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
@@ -12,10 +13,9 @@ img_path = "image_temp.jpg"
 
 
 def retrieve_context_img(query: str) -> os.path:
-    with open('imgapi.json', 'r') as f:
-        api = json.load(f)
+    json.loads(env["SHEETS_JSON"])
     headers = {
-        "Authorization": api["IMG_API_KEY"]
+        "Authorization": env["PEXELS_API_KEY"]
     }
     size = "small"
     locale = "en-US"
@@ -75,7 +75,7 @@ def build_image(text_content: str, sender_name: str, context: str) -> os.path:
     image_path = retrieve_context_img(context) # can switch with retrieve_image() if you want
 
     text_content = textwrap.fill(text_content, width=38)
-    text_content = f"{text_content}\n    - {sender_name}"
+    text_content = f"{text_content}\n- {sender_name}"
     img = Image.open(image_path).convert("RGBA")
     font = ImageFont.truetype(os.path.join(os.getcwd(), "roboto.ttf"), size=FONT_SIZE)
     draw = ImageDraw.Draw(img)

@@ -4,16 +4,14 @@ from collections import namedtuple
 import image
 import ai
 import google_sheets
+import dotenv
+from os import environ as env
 
-
-with open('env.json', 'r') as f:
-    _env = json.load(f)
-Env = namedtuple('Env', _env.keys())
-env = Env(**_env)
+dotenv.load_dotenv('.env')
 
 try:
     cl = instagrapi.Client()
-    cl.login(env.USERNAME, env.PASSWORD)
+    cl.login(env["USERNAME"], env["PASSWORD"])
 except Exception as e:
     print(f"Exception {e}. Check auth. Terminating program.")
     quit()

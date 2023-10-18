@@ -1,6 +1,8 @@
 # Retrieve message from google sheets or wherever it may get from
 import gspread
 import pandas as pd
+import json
+from os import environ as env
 
 
 def get_new_messages(filename: str = "sheets.json") -> tuple[list[str],list[str]]:
@@ -8,8 +10,9 @@ def get_new_messages(filename: str = "sheets.json") -> tuple[list[str],list[str]
     Retrieves new responses since the last time it run.
     :return: (list of names, list of messages) of new messages to process
     """
-
-    gsa = gspread.service_account(filename=filename)
+    creds_file = json.loads(env["SHEETS_JSON"])
+    gsa = gspread.service_account_from_dict(creds_file)
+    # gsa = gspread.service_account(filename=filename)
     sh = gsa.open("Test form spreadsheet")
 
     data = pd.DataFrame(sh.sheet1.get_all_records())
