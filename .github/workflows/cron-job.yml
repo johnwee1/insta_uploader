@@ -13,6 +13,7 @@ env:
   PASSWORD: ${{ secrets.PASSWORD }}
   PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
   SHEETS_JSON: ${{ secrets.SHEETS_JSON }}
+  GMAIL_JSON: ${{ secrets.GMAIL_JSON }}
 
 jobs:
   cron_build:
