@@ -1,6 +1,4 @@
-import json
 import instagrapi
-from collections import namedtuple
 import image
 import ai
 import google_sheets
