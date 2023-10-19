@@ -11,6 +11,12 @@ on:
 jobs:
   cron_build:
     runs-on: ubuntu-latest
+    env:
+      USERNAME: ${{ secrets.USERNAME }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+      PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      SHEETS_JSON: ${{ secrets.SHEETS_JSON }}
+
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
