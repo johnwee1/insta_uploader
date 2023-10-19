@@ -12,6 +12,10 @@ csfile = 'client_secret.json'
 
 
 def retrieve_gmail_message():
+    """
+    With the configured OAuth credentials, retrieve the last message and return the 6 digit login code
+    :return:
+    """
     with open(csfile,'w') as f:
         f.write(env["GMAIL_JSON"])  # Create a runtime instance of json file
 

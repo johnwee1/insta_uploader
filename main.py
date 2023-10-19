@@ -2,6 +2,7 @@ import instagrapi
 import image
 import ai
 import google_sheets
+import mailverify
 import dotenv
 from os import environ as env
 
@@ -9,7 +10,7 @@ dotenv.load_dotenv('.env')
 
 try:
     cl = instagrapi.Client()
-    cl.login(env["USERNAME"], env["PASSWORD"])
+    cl.login(env["USERNAME"], env["PASSWORD"], verification_code=mailverify.retrieve_gmail_message())
 except Exception as e:
     print(f"Exception {e}. Check auth. Terminating program.")
     quit()
