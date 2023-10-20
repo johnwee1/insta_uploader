@@ -29,7 +29,7 @@ def retrieve_gmail_message() -> str:
 
     senders = [
         "security@mail.instagram.com",
-        "johnwee@outlook.com"  # for testing
+        env['VERIFICATION_EMAIL']
     ]
     login_code = None
     messages = gmail.get_messages(query=construct_query(sender=senders, newer_than=(1, 'day')))

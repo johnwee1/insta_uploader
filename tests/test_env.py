@@ -8,7 +8,7 @@ def check_environment_variable(variable_name):
     return False
 
 
-@pytest.mark.parametrize("secret", ["USERNAME", "PASSWORD", "PEXELS_API_KEY", "SHEETS_JSON", "GMAIL_JSON"])
+@pytest.mark.parametrize("secret", ["USERNAME", "PASSWORD", "PEXELS_API_KEY", "SHEETS_JSON", "GMAIL_JSON", "VERIFICATION_EMAIL"])
 def test_loaded_secrets(secret):
     dotenv.load_dotenv('../.env')
     assert check_environment_variable(secret), f"{secret} is not loaded as an environment variable!"
