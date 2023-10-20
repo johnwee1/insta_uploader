@@ -13,7 +13,7 @@ def is_content_offensive(message: str) -> bool:
         if response[0] == '0':
             return True
     except ValueError:
-        print("Requires Authentication")
+        print("ai.py: GPT Requires Authentication")
     # except Exception as e:    # Removed exception handler so it pops up in logs
     #     print(f"Unknown exception {e} occurred!")
     return False
@@ -24,7 +24,7 @@ def generate_image_context(message: str) -> str | bool:
         response = _prompt_model("contentprompt.txt", message)
         return response
     except ValueError:
-        print("Requires Authentication")
+        print("ai.py: GPT Requires Authentication")
     # except Exception as e:    # Removed exception handler so it pops up in logs
     #     print(f"Unknown exception {e} occurred!")
     return False
@@ -38,5 +38,5 @@ def _prompt_model(preamble_filepath, message):
         model=g4f.models.gpt_35_turbo,
         messages=[{"role": "user", "content": prompt}],
     )
-    print(f"{__name__}: Prompt: {prompt} \nResponse: {response}")
+    print(f"{__name__}: Response: {response}")
     return response

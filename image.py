@@ -28,7 +28,10 @@ def retrieve_context_img(query: str) -> os.path:
         # Fallback to random image
         return retrieve_image()
     data = json.loads(response.text, object_hook=lambda x: SimpleNamespace(**x))
-    img = requests.get(data.photos[0].src.landscape, stream=True)
+    try:
+        img = requests.get(data.photos[0].src.landscape, stream=True)
+    except ValueError:  # Catch no results found
+        return retrieve_image()
     if img.status_code == 200:
         with open(img_path, 'wb') as f:
             for chunk in img.iter_content(chunk_size=8192):

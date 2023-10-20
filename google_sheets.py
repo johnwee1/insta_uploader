@@ -7,6 +7,7 @@ import dotenv
 dotenv.load_dotenv(".env")
 
 
+
 def get_new_messages() -> tuple[list[str],list[str]]:
     """
     Retrieves new responses since the last time it run.
@@ -23,14 +24,12 @@ def get_new_messages() -> tuple[list[str],list[str]]:
     previous_sheets_row = sh.get_worksheet(1).acell("A1")  # $ == '1' means that previously, response sheet was empty
     previous_idx = int(previous_sheets_row.value) - 1  # offset by 1 such that the value refers to Pandas index.
 
-    print(f"{__name__}: previous_idx = {previous_idx}\n")
-    print(f"{__name__}: data message size = {data.loc[:, 'Message'].size}\n")
-
     name = data.loc[previous_idx:, "Name"]
     message = data.loc[previous_idx:, "Message"]
     assert len(name) == len(message)
-    idx = len(name)
+    idx = len(name) + previous_idx
     sheets_row = idx + 1  # Add back the offset to return to list
+    print(f"{sheets_row}")
 
     sh.get_worksheet(1).update_acell('A1', sheets_row)
     return name.to_list(), message.to_list()

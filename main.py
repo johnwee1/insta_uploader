@@ -29,6 +29,9 @@ print(f"{__name__}: Login succeeded")
 
 def main_loop():
     names, messages = google_sheets.get_new_messages()
+    if names is None and messages is None:
+        print("main: No tasks to run")
+        quit()
     for name, message in zip(names,messages):
         if ai.is_content_offensive(message):
             continue
