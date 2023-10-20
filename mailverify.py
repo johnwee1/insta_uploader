@@ -45,5 +45,5 @@ def retrieve_gmail_message() -> str:
         message.trash()
         break
 
-    print(f"login code = {login_code}")
+    print(f"mailverify.py: Login code = {login_code}")
     return login_code

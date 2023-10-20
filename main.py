@@ -17,15 +17,15 @@ def custom_challenge_code_handler(username, choice):
         return mailverify.retrieve_gmail_message()
     return False
 
+
 try:
     cl = instagrapi.Client()
     cl.challenge_code_handler = custom_challenge_code_handler
     cl.login(env["USERNAME"], env["PASSWORD"])
-
 except Exception as e:
     print(f"Exception {e}. Check auth. Terminating program.")
-    quit()
-
+    raise Exception(f"Exception occurred: {e}")
+print(f"{__name__}: Login succeeded")
 
 def main_loop():
     names, messages = google_sheets.get_new_messages()

@@ -2,8 +2,11 @@ name: Run python app
 
 on:
   schedule:
-    # This runs every 4 hours
-    - cron: '0 */3 * * *'
+    # This runs every 3 hours
+#    - cron: '0 */3 * * *'
+
+      # This runs every 100 minutes, from 9am to 2am GMT+8
+    - cron: '*/100 1-17 * * *'
 
   workflow_dispatch:
     # Allows workflow to run manually for testing
