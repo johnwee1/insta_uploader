@@ -9,6 +9,11 @@ from os import environ as env
 
 dotenv.load_dotenv('.env')
 
+names, messages = google_sheets.get_new_messages()
+if names is None and messages is None:
+    print("main: no tasks to run, end script")
+    quit()
+
 
 def custom_challenge_code_handler(username, choice):
     if choice == ChallengeChoice.SMS:
@@ -27,11 +32,8 @@ except Exception as e:
     raise Exception(f"Exception occurred: {e}")
 print(f"{__name__}: Login succeeded")
 
+
 def main_loop():
-    names, messages = google_sheets.get_new_messages()
-    if names is None and messages is None:
-        print("main: No tasks to run")
-        quit()
     for name, message in zip(names,messages):
         if ai.is_content_offensive(message):
             continue
