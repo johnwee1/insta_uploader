@@ -7,7 +7,6 @@ import dotenv
 dotenv.load_dotenv(".env")
 
 
-
 def get_new_messages() -> tuple[list[str],list[str]]:
     """
     Retrieves new responses since the last time it run.
@@ -34,4 +33,6 @@ def get_new_messages() -> tuple[list[str],list[str]]:
     sh.get_worksheet(1).update_acell('A1', sheets_row)
     return name.to_list(), message.to_list()
 
-# print(get_new_messages())
+# names, messages =  get_new_messages()
+
+

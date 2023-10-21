@@ -10,7 +10,7 @@ from os import environ as env
 dotenv.load_dotenv('.env')
 
 names, messages = google_sheets.get_new_messages()
-if names is None and messages is None:
+if not names and not messages:
     print("main: no tasks to run, end script")
     quit()
 
