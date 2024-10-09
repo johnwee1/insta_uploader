@@ -1,0 +1,8 @@
+services:
+  backend:
+    build: . # build project dependencies
+    env_file: "secrets/.env"
+    command: ["python", "main.py"]
+    ports:
+      - "5244:5244"
+    # restart: unless-stopped
