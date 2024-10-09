@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "insta-uploader"
+version = "0.1.0"
+description = ""
+authors = ["John Wee <91670254+johnwee1@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+groq = "^0.11.0"
+python-dotenv = "^1.0.1"
+pillow = "^10.4.0"
+requests = "^2.32.3"
+fastapi = "^0.115.0"
+pydantic = "2.7.1"
+instagrapi = "^2.1.2"
+uvicorn = "^0.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

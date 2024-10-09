@@ -1,11 +1,10 @@
-# InstaUploader
+# InstaUploader (Service)
 
-A script that accelerates confessions into your Instagram feed.
+A script that accelerates confessions into your Instagram feed to be run as a service.
 
-## Features
+## Features (Docke)
 - Image based on message content
-- AI-powered chat filtering using g4f with adjustable prompt
-- Integrate directly with Google Sheets
+- LLM filtering
 - Upload to Instagram!
 
 ### How to run locally
@@ -58,9 +57,3 @@ instagrapi - Instagram
 gspread - Google Sheets
 
 simplegmail - gmail
-
-
-## Future plans
-- If I can find a free generative AI for images...
-- More advanced filtering system
-- Rewrite as a react web app

@@ -1,3 +1,4 @@
+# NOT FIXED, THIS WAS THE CODE IN THE LEGACY VERSION
 import time
 
 from simplegmail import Gmail
@@ -8,10 +9,10 @@ import os
 import dotenv
 from time import sleep
 
-dotenv.load_dotenv('.env')
+dotenv.load_dotenv(".env")
 assert "GMAIL_JSON" in env
 
-csfile = 'client_secret.json'
+csfile = "client_secret.json"
 
 
 def retrieve_gmail_message() -> str:
@@ -20,19 +21,18 @@ def retrieve_gmail_message() -> str:
     :return: str
     """
     time.sleep(10)
-    with open(csfile,'w') as f:
+    with open(csfile, "w") as f:
         f.write(env["GMAIL_JSON"])  # Create a runtime instance of json file
 
     gmail = Gmail()
 
     os.remove(csfile)
 
-    senders = [
-        "security@mail.instagram.com",
-        env['VERIFICATION_EMAIL']
-    ]
+    senders = ["security@mail.instagram.com", env["VERIFICATION_EMAIL"]]
     login_code = None
-    messages = gmail.get_messages(query=construct_query(sender=senders, newer_than=(1, 'day')))
+    messages = gmail.get_messages(
+        query=construct_query(sender=senders, newer_than=(1, "day"))
+    )
     print(messages)
     for message in messages:
         if message is None:

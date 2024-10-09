@@ -1,0 +1,7 @@
+venv/
+*.json
+.idea/
+image_temp.jpg
+modified_image.jpg
+__pycache__/
+.env
