@@ -20,18 +20,17 @@ const SimpleForm = () => {
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
-        const formData = {
-            name,
-            message
-        };
+        const formData = new URLSearchParams();
+	formData.append('name',name);
+	formData.append('message',message);
 
         try {
             const response = await fetch('https://makers-pc.monitor-liberty.ts.net/send', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: JSON.stringify(formData),
+                body: formData,
             });
 
             if (response.ok) {
@@ -77,14 +76,14 @@ const SimpleForm = () => {
                     boxShadow="lg"
                 >
                     <Heading as="h1" size="xl" textAlign="center">
-                        Simple Contact Form
+                        REPRIVY RELOADED
                     </Heading>
                     <Box as="form" onSubmit={handleSubmit} style={{ width: '100%' }}>
                         <VStack spacing={4} align="center">
                             {/* Name input */}
                             <HStack width="100%" justify="center">
                                 <Input
-                                    placeholder="Your Name"
+                                    placeholder="Your Batch and Name (eg R13)"
                                     size="lg"
                                     value={name}
                                     onChange={handleNameChange}
