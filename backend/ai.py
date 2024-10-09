@@ -6,7 +6,7 @@ dotenv.load_dotenv("secrets/.env")
 promptfile = "prompt.txt"
 
 
-def prompt_model(message: str) -> dict:
+def prompt_model(name: str, message: str) -> dict:
     client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
     with open(promptfile, "r") as f:
@@ -16,7 +16,7 @@ def prompt_model(message: str) -> dict:
         model="llama3-8b-8192",
         messages=[
             {"role": "system", "content": preamble},
-            {"role": "user", "content": message},
+            {"role": "user", "content": f"{message} -{name}"},
         ],
         response_format={"type": "json_object"},
     )

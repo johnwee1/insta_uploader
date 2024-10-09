@@ -1,11 +1,13 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useState, useEffect } from 'react';
 import { ChakraProvider, Box, VStack, HStack, Heading, Input, Textarea, Button, useToast } from '@chakra-ui/react';
 
 const SimpleForm = () => {
     // Manage form state
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const toast = useToast();
+
     // Handle input changes for name
     const handleNameChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         setName(e.target.value);
@@ -19,6 +21,9 @@ const SimpleForm = () => {
     // Handle form submission
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
+        if (loading) return;
+        setLoading(true);
+
         const formData = {
             name,
             message
@@ -49,18 +54,34 @@ const SimpleForm = () => {
         } catch (error) {
             toast({
                 title: "Error",
-                description: "Failed to submit the form. Please try again.",
+                description: "Error occurred. Maybe your message was malicious! I'm a lazy coder, so that's up to you to figure out.",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
             });
+        } finally {
+            setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (loading) {
+            toast({
+                title: "Loading",
+                description: "Please wait while we process your request...",
+                status: "info",
+                duration: null,
+                isClosable: false,
+            });
+        } else {
+            toast.closeAll();
+        }
+    }, [loading, toast]);
 
     return (
         <ChakraProvider>
             <Box
-                minHeight="100vh"
+                minHeight="30vh"
                 bg="gray.100"
                 py={12}
                 textAlign="center"
@@ -76,7 +97,7 @@ const SimpleForm = () => {
                     boxShadow="lg"
                 >
                     <Heading as="h1" size="xl" textAlign="center">
-                        REPRIVY RELOADED
+                        REPRIVY RELOADED 💌
                     </Heading>
                     <Box as="form" onSubmit={handleSubmit} style={{ width: '100%' }}>
                         <VStack spacing={4} align="center">
@@ -103,7 +124,7 @@ const SimpleForm = () => {
                             </HStack>
 
                             {/* Submit button */}
-                            <Button type="submit" colorScheme="blue" size="lg" width="full">
+                            <Button type="submit" colorScheme="blue" size="lg" width="40%">
                                 Submit
                             </Button>
                         </VStack>
@@ -115,3 +136,6 @@ const SimpleForm = () => {
 };
 
 export default SimpleForm;
+
+
+
