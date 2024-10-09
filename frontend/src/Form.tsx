@@ -19,18 +19,18 @@ const SimpleForm = () => {
     // Handle form submission
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-
-        const formData = new URLSearchParams();
-	formData.append('name',name);
-	formData.append('message',message);
+        const formData = {
+            name,
+            message
+        };
 
         try {
             const response = await fetch('https://makers-pc.monitor-liberty.ts.net/send', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                 },
-                body: formData,
+                body: JSON.stringify(formData),
             });
 
             if (response.ok) {
