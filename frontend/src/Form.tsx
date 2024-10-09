@@ -26,7 +26,7 @@ const SimpleForm = () => {
         };
 
         try {
-            const response = await fetch('0.0.0.0:5244', {
+            const response = await fetch('https://makers-pc.monitor-liberty.ts.net/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
