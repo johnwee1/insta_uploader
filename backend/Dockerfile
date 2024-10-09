@@ -34,6 +34,7 @@ WORKDIR /app
 COPY --from=builder /app/.venv ./.venv
 
 # COPY secrets/.env secrets/.env
+COPY prompt.txt .
 COPY *.py .
 COPY roboto.ttf .
 
