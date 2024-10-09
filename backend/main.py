@@ -4,7 +4,7 @@ import instagrapi
 import dotenv, os
 import backend
 
-dotenv.load_dotenv()
+dotenv.load_dotenv("secrets/.env")
 env = os.environ
 
 

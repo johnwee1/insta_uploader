@@ -1,6 +1,5 @@
 import ai
 import image
-import dotenv, os
 
 
 def build_image_pipeline(sender_name, prompt: str):

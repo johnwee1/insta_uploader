@@ -33,9 +33,10 @@ WORKDIR /app
 # copy the venv folder from builder image 
 COPY --from=builder /app/.venv ./.venv
 
+# COPY secrets/.env secrets/.env
 COPY *.py .
 COPY roboto.ttf .
 
-EXPOSE 5244
+EXPOSE 8000
 
 CMD ["/app/.venv/bin/python3", "main.py"]

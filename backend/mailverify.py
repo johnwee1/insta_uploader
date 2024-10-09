@@ -9,7 +9,7 @@ import os
 import dotenv
 from time import sleep
 
-dotenv.load_dotenv(".env")
+dotenv.load_dotenv("secrets/.env")
 assert "GMAIL_JSON" in env
 
 csfile = "client_secret.json"

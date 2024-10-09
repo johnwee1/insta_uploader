@@ -4,5 +4,5 @@ services:
     env_file: "secrets/.env"
     command: ["python", "main.py"]
     ports:
-      - "5244:5244"
+      - "8000:8000"
     # restart: unless-stopped

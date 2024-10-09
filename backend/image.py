@@ -5,11 +5,14 @@ from PIL import Image, ImageDraw, ImageFont
 import textwrap
 import json
 from types import SimpleNamespace
+import dotenv
 
 FONT_SIZE = 50
 OPACITY = 0.5
 RECT_RAD = 50
 img_path = "image_temp.jpg"
+
+dotenv.load_dotenv("secrets/.env")
 
 
 def retrieve_context_img(query: str) -> os.path:

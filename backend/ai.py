@@ -2,7 +2,7 @@ import os, dotenv
 import json
 from groq import Groq
 
-dotenv.load_dotenv()
+dotenv.load_dotenv("secrets/.env")
 promptfile = "prompt.txt"
 
 
