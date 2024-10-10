@@ -33,7 +33,7 @@ async def send(msg: Message):
     path = backend.build_image_pipeline(msg.name, msg.message)
     if not path:
         raise HTTPException(status_code=400, detail="Either message too edgy or name too long (what are you trying to do?)")
-    cl.photo_upload(path, caption=f"this message was brough to you by {msg.name}")
+    cl.photo_upload(path, caption=f"this message was brought to you by {msg.name}")
 
 @app.get("/health")
 def read_health():

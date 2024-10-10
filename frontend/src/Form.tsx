@@ -72,16 +72,17 @@ const SimpleForm = () => {
                 status: "info",
                 duration: null,
                 isClosable: false,
+                id: "loadingToast"
             });
         } else {
-            toast.closeAll();
+            toast.close("loadingToast");
         }
     }, [loading, toast]);
 
     return (
         <ChakraProvider>
             <Box
-                minHeight="30vh"
+                height="100%"
                 bg="gray.100"
                 py={12}
                 textAlign="center"

@@ -46,6 +46,7 @@ const ServerStatus: React.FC<ServerStatusProps> = ({ checkInterval = 30000 }) =>
         <Center>
             <Box
                 display="inline-flex"
+                height="3vh"
                 alignItems="center"
                 borderRadius="full"
                 bg={getStatusColor()}
